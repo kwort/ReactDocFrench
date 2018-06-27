@@ -1,0 +1,12 @@
+styled-components
+react-helmet
+ESNext
+react-router
+react-router-redux
+react
+Webpack
+    image-webpack-loader
+    offline-plugin
+FontFaceObserver
+amwmedia/plop
+react-docgen
