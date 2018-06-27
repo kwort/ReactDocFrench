@@ -98,7 +98,7 @@ The Redux source code is written in ES2015 but we precompile both CommonJS and U
 
 Most likely, you'll also need [the React bindings](https://github.com/reduxjs/react-redux) and [the developer tools](https://github.com/reduxjs/redux-devtools).
 
-```
+```bash
 npm install --save react-redux
 npm install --save-dev redux-devtools
 ```
@@ -172,20 +172,21 @@ This architecture might seem like an overkill for a counter app, but the beauty 
 ### Redux Video Tutorials by Dan Abramov
 
 #### Getting Started with Redux
+
 **[Getting Started with Redux](https://egghead.io/series/getting-started-with-redux)** is a video course consisting of 30 videos narrated by [Dan Abramov](https://twitter.com/dan_abramov), author of Redux. It is designed to complement the “Basics” part of the docs while bringing additional insights about immutability, testing, Redux best practices, and using Redux with React. **This course is free and will always be.**
 
 >[“Great course on egghead.io by @dan_abramov - instead of just showing you how to use #redux, it also shows how and why redux was built!”](https://twitter.com/sandrinodm/status/670548531422326785)  
 >Sandrino Di Mattia
-
+---
 >[“Plowing through @dan_abramov 'Getting Started with Redux' - its amazing how much simpler concepts get with video.”](https://twitter.com/chrisdhanaraj/status/670328025553219584)  
 >Chris Dhanaraj
-
+---
 >[“This video series on Redux by @dan_abramov on @eggheadio is spectacular!”](https://twitter.com/eddiezane/status/670333133242408960)  
 >Eddie Zaneski
-
+---
 >[“Come for the name hype. Stay for the rock solid fundamentals. (Thanks, and great job @dan_abramov and @eggheadio!)”](https://twitter.com/danott/status/669909126554607617)  
 >Dan
-
+---
 >[“This series of videos on Redux by @dan_abramov is repeatedly blowing my mind - gunna do some serious refactoring”](https://twitter.com/gelatindesign/status/669658358643892224)  
 >Laurence Roberts
 
