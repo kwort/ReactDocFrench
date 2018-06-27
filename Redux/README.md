@@ -39,48 +39,48 @@ Passer d'une application TodoMVC à une application de production réelle peut �
 - Redux creator Dan Abramov's **[free "Building React Applications with Idiomatic Redux" video series](https://egghead.io/courses/building-react-applications-with-idiomatic-redux)** s'appuie sur sa première série de vidéos et couvre des sujets tels que le middleware, le routage et la persistance.
 - Le **[Redux FAQ](https://redux.js.org/faq)** répond à de nombreuses questions fréquentes sur l'utilisation de Redux et le **["Recipes" docs section](https://redux.js.org/recipes)** contient de l'information sur la manipulation des données dérivées, les essais, la logique de réduction du structurant et la réduction de la norme.
 - Redux co-maintainer Mark Erikson's **["Practical Redux" tutorial series](http://blog.isquaredsoftware.com/series/practical-redux/)** démontre des techniques intermédiaires et avancées du monde réel pour travailler avec React et Redux (également disponible sur **[an interactive course on Educative.io](https://www.educative.io/collection/5687753853370368/5707702298738688)**).  
-- The **[React/Redux links list](https://github.com/markerikson/react-redux-links)** a classé les articles sur le travail avec [reducers and selectors](https://github.com/markerikson/react-redux-links/blob/master/redux-reducers-selectors.md), [managing side effects](https://github.com/markerikson/react-redux-links/blob/master/redux-side-effects.md), [Redux architecture and best practices](https://github.com/markerikson/react-redux-links/blob/master/redux-architecture.md), and more.
-- Our community has created thousands of Redux-related libraries, addons, and tools.  The **["Ecosystem" docs page](https://redux.js.org/introduction/ecosystem)** lists our recommendations, and there's a complete listing available in the **[Redux addons catalog](https://github.com/markerikson/redux-ecosystem-links)**.
-- If you're looking to learn from actual application codebases, the addons catalog also has a list of **[purpose-built examples and real-world applications](https://github.com/markerikson/redux-ecosystem-links/blob/master/apps-and-examples.md)**.
+- The **[React/Redux links list](https://github.com/markerikson/react-redux-links)** a classé les articles sur le travail avec [reducers and selectors](https://github.com/markerikson/react-redux-links/blob/master/redux-reducers-selectors.md), [managing side effects](https://github.com/markerikson/react-redux-links/blob/master/redux-side-effects.md), [Redux architecture and best practices](https://github.com/markerikson/react-redux-links/blob/master/redux-architecture.md), et plus.
+- Notre communauté a créé des milliers de bibliothèques, d'addons et d'outils liés à Redux.  L' **["Ecosystem" docs page](https://redux.js.org/introduction/ecosystem)** liste de nos recommandations, et il y a une liste complète disponible dans le **[Redux addons catalog](https://github.com/markerikson/redux-ecosystem-links)**.
+- Si vous souhaitez apprendre à partir de bases de code d'application réelles, le catalogue d'addons contient également une liste de **[purpose-built examples and real-world applications](https://github.com/markerikson/redux-ecosystem-links/blob/master/apps-and-examples.md)**.
 
-Finally, Mark Erikson is teaching a series of **[Redux workshops through Workshop.me](#redux-workshops)**.  Check the [workshop schedule](https://workshop.me/?a=mark) for upcoming dates and locations.
+Enfin, Mark Erikson enseigne une série de **[Redux workshops through Workshop.me](#redux-workshops)**.  Vérifier la [workshop schedule](https://workshop.me/?a=mark) pour les dates et lieux à venir.
 
 ### Help and Discussion
 
-The **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** of the **[Reactiflux Discord community](http://www.reactiflux.com)** is our official resource for all questions related to learning and using Redux.  Reactiflux is a great place to hang out, ask questions, and learn - come join us!
+Le **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** et le **[Reactiflux Discord community](http://www.reactiflux.com)** est notre ressource officielle pour toutes les questions liées à l'apprentissage et à l'utilisation de Redux. Reactiflux est un endroit idéal pour sortir, poser des questions et apprendre - venez nous rejoindre!
 
 ## Before Proceeding Further
 
-Redux is a valuable tool for organizing your state, but you should also consider whether it's appropriate for your situation.  Don't use Redux just because someone said you should - take some time to understand the potential benefits and tradeoffs of using it.
+Redux est un outil précieux pour organiser votre state, mais vous devriez également considérer si cela est approprié à votre situation. N'utilisez pas Redux juste parce que quelqu'un a dit que vous devriez - prenez le temps de comprendre les avantages et les compromis potentiels de son utilisation.
 
-Here are some suggestions on when it makes sense to use Redux:
+Voici quelques suggestions sur quand il est judicieux d'utiliser Redux:
 
-- You have reasonable amounts of data changing over time
-- You need a single source of truth for your state
-- You find that keeping all your state in a top-level component is no longer sufficient
+- Vous avez des quantités raisonnables de données qui changent au fil du temps
+- Vous avez besoin d'une source unique de vérité pour votre état
+- Vous trouvez que garder tout votre état dans un composant de haut niveau n'est plus suffisant
 
-Yes, these guidelines are subjective and vague, but this is for good reason. The point at which you should integrate Redux into your application is different for every user and different for every application.
+Oui, ces directives sont subjectives et vagues, mais c'est pour une bonne raison. Le point auquel vous devez intégrer Redux dans votre application est différent pour chaque utilisateur et différent pour chaque application.
 
->**For more thoughts on how Redux is meant to be used, see:**
+>**Pour plus d'idées sur la façon dont Redux est destiné à être utilisé, voir:**
 >
->- **[You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)**<br>
->- **[The Tao of Redux, Part 1 - Implementation and Intent](http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)**<br>
+>- **[You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)**
+>- **[The Tao of Redux, Part 1 - Implementation and Intent](http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)**
 >- **[The Tao of Redux, Part 2 - Practice and Philosophy](http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-2/)**
 >- **[Redux FAQ](https://redux.js.org/faq)**
 
 ## Developer Experience
 
-Dan Abramov (author of Redux) wrote Redux while working on his React Europe talk called [“Hot Reloading with Time Travel”](https://www.youtube.com/watch?v=xsSnOQynTHs). His goal was to create a state management library with a minimal API but completely predictable behavior. Redux makes it possible to implement logging, hot reloading, time travel, universal apps, record and replay, without any buy-in from the developer.
+Dan Abramov (auteur de Redux) a écrit Redux pendant qu'il travaillait sur sa conférence React Europe intitulée [“Hot Reloading with Time Travel”](https://www.youtube.com/watch?v=xsSnOQynTHs). Son but était de créer une bibliothèque de gestion d'état avec une API minimale mais un comportement complètement prévisible. Redux permet d'implémenter la journalisation, le rechargement à chaud, le voyage dans le temps, les applications universelles, l'enregistrement et la relecture, sans aucun engagement de la part du développeur.
 
 ## Influences
 
-Redux evolves the ideas of [Flux](http://facebook.github.io/flux/), but avoids its complexity by taking cues from [Elm](https://github.com/evancz/elm-architecture-tutorial/). Even if you haven't used Flux or Elm, Redux only takes a few minutes to get started with.
+Redux fait évoluer les idées de [Flux](http://facebook.github.io/flux/), mais évite sa complexité en s'inspirant de [Elm](https://github.com/evancz/elm-architecture-tutorial/). Même si vous n'avez pas utilisé Flux ou Elm, Redux ne prend que quelques minutes pour commencer.
 
 ## Installation
 
-To install the stable version:
+Pour installer la version stable:
 
-```
+```bash
 npm install --save redux
 ```
 
