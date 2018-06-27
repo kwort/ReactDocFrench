@@ -1,21 +1,14 @@
 # Beginner Tutorial
 
-## Objectives of this tutorial
-
-Ce tutoriel tente d'introduire redux-saga de manière (espérons-le) accessible.
-
-Pour notre tutoriel de démarrage, nous allons utiliser la démo Counter trivial du repo Redux. L'application est assez simple, mais est un bon moyen d'illustrer les concepts de base de redux-saga sans être perdu dans les détails excessifs.
-
 ### The initial setup
 
-Avant de commencer, clonez le référentiel du didacticiel.
-
+Avant de commencer, clonez le [référentiel du didacticiel](https://github.com/redux-saga/redux-saga-beginner-tutorial).
 Le code final de ce tutoriel se trouve dans la branche des sagas.
 
 Ensuite, dans la ligne de commande, exécutez:
 
 ```bash
-cd examples/counter
+cd redux-saga-beginner-tutorial
 npm install
 ```
 
@@ -25,15 +18,9 @@ Pour démarrer l'application, exécutez:
 npm start
 ```
 
-Nous commençons par le cas d'utilisation le plus simple: 2 boutons pour incrémenter et décrémenter un compteur. Plus tard, nous introduirons des appels asynchrones.
-
-Si les choses vont bien, vous devriez voir 2 boutons Incrément et Décrément avec un message ci-dessous montrant Counter: 0.
-
-Dans le cas où vous rencontriez un problème avec l'exécution de l'application. N'hésitez pas à créer un problème sur le repo tutoriel.
-
 ## Hello Sagas!
 
-Nous allons créer notre première Saga. Suivant la tradition, nous écrirons notre version "Hello, world" pour Sagas.
+Nous allons créer notre première Saga. Nous écrirons notre version "Hello, world" pour Sagas.
 
 Créez un fichier sagas.js puis ajoutez l'extrait suivant:
 
@@ -43,12 +30,12 @@ export function* helloSaga() {
 }
 ```
 
-Donc rien d'effrayant, juste une fonction normale (sauf pour le *). Tout ce qu'il fait est afficher un message d'accueil dans la console.
+Juste une fonction normale (sauf pour le *). Tout ce qu'il fait est afficher un message d'accueil dans la console.
 
 Pour faire tourner notre Saga, nous devons:
 
-créer un middleware Saga avec une liste de Sagas à exécuter (pour l'instant, nous n'avons qu'un seul HelloSaga)
-connecter le middleware Saga au magasin Redux
+Créer un middleware Saga avec une liste de Sagas à exécuter (pour l'instant, nous n'avons qu'un seul HelloSaga) et connecter le middleware Saga au store Redux
+
 Nous allons apporter les modifications à main.js:
 
 ```javascript
@@ -84,24 +71,24 @@ Maintenant, ajoutons quelque chose de plus proche de la démo de Counter origina
 Tout d'abord, nous allons fournir un bouton supplémentaire et un rappel onIncrementAsync au composant de l'interface utilisateur.
 
 ```javascript
-const Counter = ({ value, onIncrement, onDecrement, onIncrementAsync }) =>
-  <div>
-    <button onClick={onIncrementAsync}>
-      Increment after 1 second
-    </button>
-    {' '}
-    <button onClick={onIncrement}>
-      Increment
-    </button>
-    {' '}
-    <button onClick={onDecrement}>
-      Decrement
-    </button>
-    <hr />
+  const Counter = ({ value, onIncrement, onDecrement, onIncrementAsync }) =>
     <div>
-      Clicked: {value} times
+      <button onClick={onIncrementAsync}>
+        Increment after 1 second
+      </button>
+      {' '}
+      <button onClick={onIncrement}>
+        Increment
+      </button>
+      {' '}
+      <button onClick={onDecrement}>
+        Decrement
+      </button>
+      <hr />
+      <div>
+        Clicked: {value} times
+      </div>
     </div>
-  </div>
 ```
 
 Ensuite, nous devons connecter l'onIncrementAsync du composant à une action du store.
@@ -150,7 +137,7 @@ export function* watchIncrementAsync() {
 
 Temps pour quelques explications.
 
-Nous importons delay, une fonction d'utilité qui renvoie une promesse qui sera résolue après un nombre spécifié de millisecondes. Nous allons utiliser cette fonction pour bloquer le générateur.
+Nous importons delay, une fonction d'utilité qui renvoie une promise qui sera résolue après un nombre spécifié de millisecondes. Nous allons utiliser cette fonction pour bloquer le générateur.
 
 Les sagas sont implémentées comme des fonctions de générateur qui fournissent des objets au middleware redux-saga. Les objets cédés sont une sorte d'instruction à interpréter par le middleware. Lorsqu'une Promesse est cédée au middleware, le middleware suspendra la Saga jusqu'à la fin de la Promesse. Dans l'exemple ci-dessus, la Saga incrementAsync est suspendue jusqu'à ce que la Promesse retournée par le délai se résolve, ce qui arrivera après 1 seconde.
 

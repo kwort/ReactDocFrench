@@ -2,15 +2,15 @@
 
 ## Using Saga Helpers
 
-redux-saga provides some helper effects wrapping internal functions to spawn tasks when some specific actions are dispatched to the Store.
+redux-saga fournit des effets d'aide enveloppant les fonctions internes pour générer des tâches lorsque certaines actions spécifiques sont envoyées au store.
 
-The helper functions are built on top of the lower level API. In the advanced section, we'll see how those functions can be implemented.
+Les fonctions d'aide sont construites au-dessus de l'API de niveau inférieur. Dans la section avancée, nous verrons comment ces fonctions peuvent être implémentées.
 
-The first function, takeEvery is the most familiar and provides a behavior similar to redux-thunk.
+La première fonction, takeEvery est la plus familière et fournit un comportement similaire à redux-thunk.
 
-Let's illustrate with the common AJAX example. On each click on a Fetch button we dispatch a FETCH_REQUESTED action. We want to handle this action by launching a task that will fetch some data from the server.
+Illustrons avec l'exemple commun AJAX. À chaque clic sur un bouton Fetch, nous envoyons une action FETCH_REQUESTED. Nous voulons gérer cette action en lançant une tâche qui va chercher des données sur le serveur.
 
-First we create the task that will perform the asynchronous action:
+Nous créons d'abord la tâche qui va effectuer l'action asynchrone:
 
 ```javascript
 import { call, put } from 'redux-saga/effects'
@@ -25,7 +25,7 @@ export function* fetchData(action) {
 }
 ```
 
-To launch the above task on each FETCH_REQUESTED action:
+Pour lancer la tâche ci-dessus sur chaque action FETCH_REQUESTED:
 
 ```javascript
 import { takeEvery } from 'redux-saga/effects'
@@ -35,9 +35,9 @@ function* watchFetchData() {
 }
 ```
 
-In the above example, takeEvery allows multiple fetchData instances to be started concurrently. At a given moment, we can start a new fetchData task while there are still one or more previous fetchData tasks which have not yet terminated.
+Dans l'exemple ci-dessus, takeEvery permet le démarrage simultané de plusieurs instances de fetchData. À un moment donné, nous pouvons lancer une nouvelle tâche fetchData alors qu'il existe encore une ou plusieurs tâches fetchData récédentes qui n'ont pas encore été terminées.
 
-If we want to only get the response of the latest request fired (e.g. to always display the latest version of data) we can use the takeLatest helper:
+Si nous voulons seulement obtenir la réponse de la dernière requête lancée (par exemple pour toujours afficher la dernière version des données), nous pouvons utiliser l'assistant takeLatest:
 
 ```javascript
 import { takeLatest } from 'redux-saga/effects'
@@ -47,11 +47,11 @@ function* watchFetchData() {
 }
 ```
 
-Unlike takeEvery, takeLatest allows only one fetchData task to run at any moment. And it will be the latest started task. If a previous task is still running when another fetchData task is started, the previous task will be automatically cancelled.
+Contrairement à takeEvery, takeLatest n'autorise qu'une seule tâche fetchData à s'exécuter à tout moment. Et ce sera la dernière tâche commencée. Si une tâche précédente est toujours en cours lorsqu'une autre tâche fetchData est démarrée, la tâche précédente sera automatiquement annulée.
 
-If you have multiple Sagas watching for different actions, you can create multiple watchers with those built-in helpers, which will behave like there was fork used to spawn them (we'll talk about fork later. For now, consider it to be an Effect that allows us to start multiple sagas in the background).
+Si vous avez plusieurs sagas qui surveillent différentes actions, vous pouvez créer plusieurs observateurs avec ces aides intégrées, qui se comporteront comme s'il y avait une fourchette utilisée pour les engendrer (nous parlerons plus tard de la fourchette. Effet qui nous permet de lancer plusieurs sagas en arrière-plan).
 
-For example:
+Par exemple:
 
 ```javascript
 import { takeEvery } from 'redux-saga/effects'
@@ -71,15 +71,15 @@ export default function* rootSaga() {
 
 ## Declarative Effects
 
-In redux-saga, Sagas are implemented using Generator functions. To express the Saga logic, we yield plain JavaScript Objects from the Generator. We call those Objects Effects. An Effect is simply an object that contains some information to be interpreted by the middleware. You can view Effects like instructions to the middleware to perform some operation (e.g., invoke some asynchronous function, dispatch an action to the store, etc.).
+Dans redux-saga, les Sagas sont implémentés en utilisant les fonctions Generator. Pour exprimer la logique Saga, nous générons des objets JavaScript simples à partir du générateur. Nous appelons ces effets d'objets. Un effet est simplement un objet qui contient des informations à interpréter par le middleware. Vous pouvez afficher des effets comme des instructions sur le middleware pour effectuer certaines opérations (par exemple, invoquer une fonction asynchrone, envoyer une action au store, etc.).
 
-To create Effects, you use the functions provided by the library in the redux-saga/effects package.
+Pour créer des effets, vous utilisez les fonctions fournies par la bibliothèque dans le paquet redux-saga / effets.
 
-In this section and the following, we will introduce some basic Effects. And see how the concept allows the Sagas to be easily tested.
+Dans cette section et les suivantes, nous allons présenter quelques effets de base. Et voyez comment le concept permet aux Sagas d'être facilement testés.
 
-Sagas can yield Effects in multiple forms. The simplest way is to yield a Promise.
+Les sagas peuvent produire des effets sous plusieurs formes. Le moyen le plus simple est de donner une promise.
 
-For example suppose we have a Saga that watches a PRODUCTS_REQUESTED action. On each matching action, it starts a task to fetch a list of products from a server.
+Par exemple, supposons que nous ayons une Saga qui surveille une action PRODUCTS_REQUESTED. À chaque action correspondante, il lance une tâche pour extraire une liste de produits d'un serveur.
 
 ```javascript
 import { takeEvery } from 'redux-saga/effects'
@@ -95,32 +95,29 @@ function* fetchProducts() {
 }
 ```
 
-In the example above, we are invoking Api.fetch directly from inside the Generator (In Generator functions, any expression at the right of yield is evaluated then the result is yielded to the caller).
+Dans l'exemple ci-dessus, nous appelons Api.fetch directement depuis l'intérieur du générateur (dans les fonctions Générateur, toute expression à droite du rendement est évaluée puis le résultat est cédé à l'appelant).
 
-Api.fetch('/products') triggers an AJAX request and returns a Promise that will resolve with the resolved response, the AJAX request will be executed immediately. Simple and idiomatic, but...
+Api.fetch ('/ products') déclenche une requête AJAX et renvoie une Promesse qui sera résolue avec la réponse résolue, la requête AJAX sera exécutée immédiatement. Simple et idiomatique, mais ...
 
-Suppose we want to test the generator above:
+Supposons que nous voulons tester le générateur ci-dessus:
 
 ```javascript
 const iterator = fetchProducts()
 assert.deepEqual(iterator.next().value, ??) // what do we expect ?
 ```
 
-We want to check the result of the first value yielded by the generator. In our case it's the result of running Api.fetch('/products') which is a Promise . Executing the real service during tests is neither a viable nor practical approach, so we have to mock the Api.fetch function, i.e. we'll have to replace the real function with a fake one which doesn't actually run the AJAX request but only checks that we've called Api.fetch with the right arguments ('/products' in our case).
 
-Mocks make testing more difficult and less reliable. On the other hand, functions that simply return values are easier to test, since we can use a simple equal() to check the result. This is the way to write the most reliable tests.
+Nous voulons vérifier le résultat de la première valeur produite par le générateur. Dans notre cas, c'est le résultat de l'exécution d'Api.fetch ('/ products') qui est une promesse. L'exécution du service réel pendant les tests n'est ni une approche viable ni pratique, donc nous devons nous moquer de la fonction Api.fetch, c'est-à-dire que nous allons devoir remplacer la fonction réelle par une fausse qui ne lance pas la requête AJAX. vérifie que nous avons appelé Api.fetch avec les bons arguments ('/ products' dans notre cas).
 
-Not convinced? I encourage you to read Eric Elliott's article:
+Les mocks rendent les tests plus difficiles et moins fiables. D'un autre côté, les fonctions qui retournent simplement des valeurs sont plus faciles à tester, puisque nous pouvons utiliser un simple equal () pour vérifier le résultat. C'est la façon d'écrire les tests les plus fiables.
 
-(...)equal(), by nature answers the two most important questions every unit test must answer, but most don’t:
+Quelle est la sortie réelle?
+Quelle est l'attente de production?
+Si vous terminez un test sans répondre à ces deux questions, vous n'avez pas de véritable test unitaire. Vous avez un test bâclé et semi-cuit.
 
-What is the actual output?
-What is the expected output?
-If you finish a test without answering those two questions, you don’t have a real unit test. You have a sloppy, half-baked test.
+Ce dont nous avons réellement besoin est juste de nous assurer que la tâche fetchProducts génère un appel avec la bonne fonction et les bons arguments.
 
-What we actually need is just to make sure the fetchProducts task yields a call with the right function and the right arguments.
-
-Instead of invoking the asynchronous function directly from inside the Generator, we can yield only a description of the function invocation. i.e. We'll simply yield an object which looks like
+Au lieu d'invoquer la fonction asynchrone directement depuis l'intérieur du générateur, nous ne pouvons donner qu'une description de l'invocation de la fonction. C'est-à-dire que nous allons simplement donner un objet qui ressemble à
 
 ```javascript
 // Effect -> call the function Api.fetch with `./products` as argument
@@ -132,9 +129,9 @@ Instead of invoking the asynchronous function directly from inside the Generator
 }
 ```
 
-Put another way, the Generator will yield plain Objects containing instructions, and the redux-saga middleware will take care of executing those instructions and giving back the result of their execution to the Generator. This way, when testing the Generator, all we need to do is to check that it yields the expected instruction by doing a simple deepEqual on the yielded Object.
+En d'autres termes, le générateur générera des objets simples contenant des instructions, et le middleware redux-saga se chargera d'exécuter ces instructions et de restituer le résultat de leur exécution au générateur. De cette façon, lors du test du Générateur, tout ce que nous devons faire est de vérifier qu'il donne l'instruction attendue en faisant un simple deepEqual sur l'Object produit.
 
-For this reason, the library provides a different way to perform asynchronous calls.
+Pour cette raison, la bibliothèque fournit une manière différente d'effectuer des appels asynchrones.
 
 ```javascript
 import { call } from 'redux-saga/effects'
@@ -145,9 +142,9 @@ function* fetchProducts() {
 }
 ```
 
-We're using now the call(fn, ...args) function. The difference from the preceding example is that now we're not executing the fetch call immediately, instead, call creates a description of the effect. Just as in Redux you use action creators to create a plain object describing the action that will get executed by the Store, call creates a plain object describing the function call. The redux-saga middleware takes care of executing the function call and resuming the generator with the resolved response.
+Nous utilisons maintenant la fonction call (fn, ...args). La différence par rapport à l'exemple précédent est que maintenant, nous n'exécutons pas l'appel de récupération immédiatement, call crée une description de l'effet. Tout comme dans Redux, vous utilisez des créateurs d'actions pour créer un objet simple décrivant l'action qui sera exécutée par le magasin, l'appel crée un objet simple décrivant l'appel de la fonction. Le middleware redux-saga prend en charge l'exécution de l'appel de fonction et la reprise du générateur avec la réponse résolue.
 
-This allows us to easily test the Generator outside the Redux environment. Because call is just a function which returns a plain Object.
+Cela nous permet de tester facilement le générateur en dehors de l'environnement Redux. Parce que call est juste une fonction qui renvoie un objet simple.
 
 ```javascript
 import { call } from 'redux-saga/effects'
@@ -163,23 +160,23 @@ assert.deepEqual(
 )
 ```
 
-Now we don't need to mock anything, and a simple equality test will suffice.
+Maintenant, nous n'avons plus besoin de nous moquer de rien, et un simple test d'égalité suffira.
 
-The advantage of those declarative calls is that we can test all the logic inside a Saga by simply iterating over the Generator and doing a deepEqual test on the values yielded successively. This is a real benefit, as your complex asynchronous operations are no longer black boxes, and you can test in detail their operational logic no matter how complex it is.
+L'avantage de ces appels déclaratifs est que nous pouvons tester toute la logique à l'intérieur d'une saga en passant simplement par itération sur le générateur et en effectuant un test deepEqual sur les valeurs successives. C'est un réel avantage, car vos opérations asynchrones complexes ne sont plus des boîtes noires, et vous pouvez tester en détail leur logique opérationnelle, aussi complexe soit-elle.
 
-call also supports invoking object methods, you can provide a this context to the invoked functions using the following form:
+call prend également en charge l'appel de méthodes d'objet, vous pouvez fournir un contexte aux fonctions invoquées en utilisant le formulaire suivant:
 
 ```javascript
 yield call([obj, obj.method], arg1, arg2, ...) // as if we did obj.method(arg1, arg2 ...)
 ```
 
-apply is an alias for the method invocation form
+apply est un alias pour le formulaire d'invocation de méthode
 
 ```javascript
 yield apply(obj, obj.method, [arg1, arg2, ...])
 ```
 
-call and apply are well suited for functions that return Promise results. Another function cps can be used to handle Node style functions (e.g. fn(...args, callback) where callback is of the form (error, result) => ()). cps stands for Continuation Passing Style.
+call et apply conviennent bien aux fonctions qui retournent les résultats de Promise. Une autre fonction cps peut être utilisée pour gérer les fonctions de style Node (e.g. fn(...args, callback) où callback est de la forme (error, result) => ()). cps signifie Continuation Passing Style.
 
 For example:
 
@@ -189,7 +186,7 @@ import { cps } from 'redux-saga/effects'
 const content = yield cps(readFile, '/path/to/file')
 ```
 
-And of course you can test it just like you test call:
+Et bien sûr, vous pouvez le tester comme vous l'appelez:
 
 ```javascript
 import { cps } from 'redux-saga/effects'
@@ -198,15 +195,15 @@ const iterator = fetchSaga()
 assert.deepEqual(iterator.next().value, cps(readFile, '/path/to/file') )
 ```
 
-cps also supports the same method invocation form as call.
+cps prend également en charge le même formulaire d'appel de méthode que call.
 
-A full list of declarative effects can be found in the API reference.
+Une liste complète des effets déclaratifs peut être trouvée dans la référence de l'API.
 
 ## Dispatching actions to the store
 
-Taking the previous example further, let's say that after each save, we want to dispatch some action to notify the Store that the fetch has succeeded (we'll omit the failure case for the moment).
+En prenant l'exemple précédent plus loin, disons qu'après chaque sauvegarde, nous voulons envoyer une action pour avertir le Store que la récupération a réussi (nous omettrons le cas d'échec pour le moment).
 
-We could pass the Store's dispatch function to the Generator. Then the Generator could invoke it after receiving the fetch response:
+Nous pourrions passer la fonction d'expédition du magasin au store. Ensuite, le générateur pourrait l'appeler après avoir reçu la réponse de récupération:
 
 ```javascript
 // ...
@@ -217,11 +214,11 @@ function* fetchProducts(dispatch) {
 }
 ```
 
-However, this solution has the same drawbacks as invoking functions directly from inside the Generator (as discussed in the previous section). If we want to test that fetchProducts performs the dispatch after receiving the AJAX response, we'll need again to mock the dispatch function.
+Cependant, cette solution présente les mêmes inconvénients que l'invocation de fonctions directement depuis l'intérieur du générateur (comme indiqué dans la section précédente). Si nous voulons tester que fetchProducts effectue la distribution après avoir reçu la réponse AJAX, nous aurons encore besoin de simuler la fonction de distribution.
 
-Instead, we need the same declarative solution. Just create an Object to instruct the middleware that we need to dispatch some action, and let the middleware perform the real dispatch. This way we can test the Generator's dispatch in the same way: by just inspecting the yielded Effect and making sure it contains the correct instructions.
+Au lieu de cela, nous avons besoin de la même solution déclarative. Créez simplement un objet pour indiquer au middleware dont nous avons besoin pour envoyer une action, et laissez le middleware effectuer la répartition réelle. De cette façon, nous pouvons tester la répartition du générateur de la même manière: en inspectant simplement l'effet produit et en vérifiant qu'il contient les instructions correctes.
 
-The library provides, for this purpose, another function put which creates the dispatch Effect.
+La bibliothèque fournit, à cet effet, une autre fonction put qui crée l'effet de répartition.
 
 ```javascript
 import { call, put } from 'redux-saga/effects'
@@ -260,15 +257,15 @@ assert.deepEqual(
 )
 ```
 
-Note how we pass the fake response to the Generator via its next method. Outside the middleware environment, we have total control over the Generator, we can simulate a real environment by simply mocking results and resuming the Generator with them. Mocking data is a lot simpler than mocking functions and spying calls.
+Notez comment nous passons la fausse réponse au générateur via sa prochaine méthode. En dehors de l'environnement middleware, nous avons un contrôle total sur le générateur, nous pouvons simuler un environnement réel en simulant simplement les résultats et en reprenant le générateur avec eux. Les données moqueuses sont beaucoup plus simples que les fonctions moqueuses et les appels d'espionnage.
 
 ## Error handling
 
-In this section we'll see how to handle the failure case from the previous example. Let's suppose that our API function Api.fetch returns a Promise which gets rejected when the remote fetch fails for some reason.
+Dans cette section, nous verrons comment gérer le cas d'échec de l'exemple précédent. Supposons que notre fonction API Api.fetch renvoie une promesse qui est rejetée lorsque la récupération à distance échoue pour une raison quelconque.
 
-We want to handle those errors inside our Saga by dispatching a PRODUCTS_REQUEST_FAILED action to the Store.
+Nous voulons gérer ces erreurs dans notre Saga en envoyant une action PRODUCTS_REQUEST_FAILED au Store.
 
-We can catch errors inside the Saga using the familiar try/catch syntax.
+Nous pouvons détecter les erreurs dans la Saga en utilisant la syntaxe try / catch familière.
 
 ```javascript
 import Api from './path/to/api'
@@ -280,14 +277,13 @@ function* fetchProducts() {
   try {
     const products = yield call(Api.fetch, '/products')
     yield put({ type: 'PRODUCTS_RECEIVED', products })
-  }
-  catch(error) {
+  } catch(error) {
     yield put({ type: 'PRODUCTS_REQUEST_FAILED', error })
   }
 }
 ```
 
-In order to test the failure case, we'll use the throw method of the Generator
+Afin de tester le cas d'échec, nous allons utiliser la méthode de lancement du générateur
 
 ```javascript
 import { call, put } from 'redux-saga/effects'
@@ -313,10 +309,9 @@ assert.deepEqual(
 )
 ```
 
-In this case, we're passing the throw method a fake error. This will cause the Generator to break the current flow and execute the catch block.
+Dans ce cas, nous passons la méthode throw une fausse erreur. Cela entraînera le générateur à interrompre le flux actuel et à exécuter le bloc catch.
 
-Of course, you're not forced to handle your API errors inside try/catch blocks. You can also make your API service return a normal value with some error flag on it. For example, you can catch Promise rejections and map them to an object with an error field.
-
+Bien sûr, vous n'êtes pas obligé de gérer vos erreurs d'API à l'intérieur des blocs try / catch. Vous pouvez également faire en sorte que votre service API renvoie une valeur normale avec un indicateur d'erreur. Par exemple, vous pouvez capturer les rejets de Promise et les mapper à un objet avec un champ d'erreur.
 
 ```javascript
 import Api from './path/to/api'
@@ -339,10 +334,10 @@ function* fetchProducts() {
 
 ## A common abstraction: Effect
 
-To generalize, triggering Side Effects from inside a Saga is always done by yielding some declarative Effect. (You can also yield Promise directly, but this will make testing difficult as we saw in the first section.)
+Pour généraliser, le déclenchement d'effets secondaires depuis l'intérieur d'une saga est toujours effectué en produisant un effet déclaratif. (Vous pouvez également céder la Promise directement, mais cela rendra le test difficile comme nous l'avons vu dans la première section.)
 
-What a Saga does is actually compose all those Effects together to implement the desired control flow. The simplest example is to sequence yielded Effects by just putting the yields one after another. You can also use the familiar control flow operators (if, while, for) to implement more sophisticated control flows.
+Qu'est-ce qu'une Saga fait est de composer tous ces effets ensemble pour mettre en œuvre le flux de contrôle souhaité. L'exemple le plus simple consiste à séquencer les effets obtenus en mettant simplement les rendements l'un après l'autre. Vous pouvez également utiliser les opérateurs de flux de contrôle familiers (if, while, for) pour implémenter des flux de contrôle plus sophistiqués.
 
-We saw that using Effects like call and put, combined with high-level APIs like takeEvery allows us to achieve the same things as redux-thunk, but with the added benefit of easy testability.
+Nous avons vu qu'utiliser des effets comme call et put, combinés avec des API de haut niveau comme takeEvery, nous permet de réaliser les mêmes choses que redux-thunk, mais avec l'avantage supplémentaire de tester facilement.
 
-But redux-saga provides another advantage over redux-thunk. In the Advanced section you'll encounter some more powerful Effects that let you express complex control flows while still allowing the same testability benefit.
+Mais redux-saga offre un autre avantage sur redux-thunk. Dans la section Advanced, vous découvrirez des effets plus puissants qui vous permettront d'exprimer des flux de contrôle complexes tout en conservant le même bénéfice de testabilité.
