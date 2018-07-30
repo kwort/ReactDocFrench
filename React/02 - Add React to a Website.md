@@ -4,7 +4,7 @@
 
 La majorité des sites Web ne sont pas et ne doivent pas nécessairement être des applications à une seule page.
 
-## Step 1: Add a DOM Container to the HTML
+## Step 1: Ajouter un conteneur DOM au HTML
 
 Commencez par ouvrir la page HTML que vous souhaitez modifier. Ajoutez une balise "div" vide pour marquer l'endroit où vous voulez afficher quelque chose avec React.
 
@@ -16,11 +16,9 @@ Commencez par ouvrir la page HTML que vous souhaitez modifier. Ajoutez une balis
 
 Nous avons donné à cet attribut **div** un identifiant HTML unique. Cela nous permettra de le trouver plus tard à partir du code JavaScript et d'afficher un composant React à l'intérieur de celui-ci.
 
-Pointe
-
 Vous pouvez placer un "container" **div** comme ça n'importe où dans la balise **body**. Vous pouvez avoir autant de conteneurs DOM indépendants sur une page que vous le souhaitez. Ils sont généralement vides - React remplacera tout contenu existant dans à l'interieur des container DOM.
 
-## Step 2: Add the Script Tags
+## Step 2: Ajouter les balises de script
 
 Ensuite, ajoutez trois balises **script** à la page HTML juste avant la balise de fermeture **body**:
 
@@ -45,7 +43,7 @@ Ensuite, ajoutez trois balises **script** à la page HTML juste avant la balise 
 
 Les deux premiers tags chargent React. Le troisième chargera votre code de composant.
 
-## Step 3: Create a React Component
+## Step 3: Créer un composant React
 
 Créez un fichier appelé like_button.js à côté de votre page HTML et ajoutez le code :
 
@@ -167,7 +165,7 @@ document.querySelectorAll('.like_button_container')
   });
 ```
 
-## React with JSX
+## React avec JSX
 
 Dans les exemples ci-dessus, nous ne nous sommes appuyés que sur des fonctionnalités supportées nativement par les navigateurs. C'est pourquoi nous avons utilisé un appel de fonction JavaScript pour dire à React ce qu'il faut afficher:
 
@@ -191,7 +189,7 @@ return (
 
 Ces deux extraits de code sont équivalents. Bien que JSX soit complètement optionnel, beaucoup de gens trouvent cela utile pour écrire du code d'interface utilisateur - à la fois avec React et avec d'autres bibliothèques.
 
-## Quickly Try JSX
+## Essayez rapidement JSX
 
 Le moyen le plus rapide d'essayer JSX dans votre projet est d'ajouter cette balise **script** à votre page:
 
@@ -240,7 +238,7 @@ Vous pouvez maintenant utiliser JSX dans n'importe quelle balise **script** en a
 
 Cette approche est parfaite pour apprendre et créer des démos simples. Cependant, cela rend votre site Web lent et ne convient pas à la production. Lorsque vous êtes prêt à aller de l'avant, supprimez cette nouvelle balise **script** et les attributs type="text/babel" que vous avez ajoutés. Au lieu de cela, dans la section suivante, vous allez configurer un préprocesseur JSX pour convertir automatiquement toutes vos balises **script**.
 
-## Add JSX to a Project
+## Ajouter JSX à un projet
 
 L'ajout de JSX à un projet ne nécessite pas d'outils compliqués comme un bundler ou un serveur de développement. Essentiellement, l'ajout de JSX ressemble beaucoup à l'ajout d'un préprocesseur CSS. La seule exigence est d'avoir Node.js installé sur votre ordinateur.
 
@@ -251,7 +249,7 @@ npm init -y
 npm install babel-cli@6 babel-preset-react-app@3
 ```
 
-## Run JSX Preprocessor
+## Exécuter le préprocesseur JSX
 
 Créez un dossier appelé src et exécutez cette commande de terminal:
 

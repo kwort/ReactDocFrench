@@ -1,16 +1,14 @@
 # Getting Started
 
-## Try React
+## Ajouter React à un site Web existant
 
-### Add React to a Website
+On peut ajouter React à une page HTML puis étendre sa présence, ou le garder confinée à quelques widgets.
 
-On peut ajouter React à une page HTML en une minute puis étendre sa présence, ou le garder confinée à quelques widgets.
-
-### Créer une nouvelle application React
+## Créer une nouvelle application React
 
 Lors du démarrage d'un projet React, une simple page HTML avec des balises de script peut toujours être la meilleure option. Au fur et à mesure que votre application se développe, on peut envisager une installation plus intégrée. Plusieurs chaînes d'outils JavaScript existe pour les applications plus volumineuses.
 
-## Staying Informed
+## Rester informé
 
 Le blog React est la source officielle des mises à jour de l'équipe React. Tout ce qui est important, y compris les notes de mise à jour ou les avis d'obsolescence, sera affiché en premier.
 
